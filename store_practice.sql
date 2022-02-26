@@ -1,6 +1,29 @@
 /*
 * DB: Store
 * Table: orders
+* Question: Get all orders from customers who live in Ohio (OH), New York (NY) or Oregon (OR) state
+* ordered by orderid
+*/
+SELECT c.firstname, c.lastname, o.orderid, c.state 
+FROM orders AS o INNER JOIN customers AS c 
+ON o.customerid = c.customerid
+WHERE c.state IN ('OH', 'OR', 'NY')
+ORDER BY orderid;
+
+/*
+* DB: Store
+* Table: products
+* Question: Show me the inventory for each product
+*/
+SELECT p.prod_id, i.quan_in_stock, p.title
+FROM products AS p INNER JOIN inventory AS i
+ON p.prod_id = i.prod_id
+ORDER BY p.prod_id;
+
+
+/*
+* DB: Store
+* Table: orders
 * Question: How many orders were made in January 2004?
 */
 

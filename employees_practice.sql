@@ -1,3 +1,49 @@
+SELECT e.emp_no, e.first_name, de.dept_no, dp.dept_name
+FROM employees AS e
+INNER JOIN dept_emp AS de USING(emp_no)
+INNER JOIN departments AS dp USING(dept_no);
+
+/*
+* DB: Employees
+* Table: employees
+* Question: Show me for each employee which department they work in
+*/
+SELECT e.emp_no AS "Employee ID",
+       CONCAT(e.last_name,', ',e.first_name) AS "Name",
+       d.dept_no AS "Department No.",
+       dep.dept_name AS "Department Name"
+FROM employees AS e INNER JOIN dept_emp AS d
+ON e.emp_no = d.emp_no
+INNER JOIN departments AS dep
+ON d.dept_no = dep.dept_no
+ORDER BY e.emp_no;
+
+
+SELECT count(emp.emp_no)
+FROM employees AS emp
+LEFT JOIN dept_manager AS dep ON emp.emp_no = dep.emp_no
+WHERE dep.emp_no IS NULL;
+
+SELECT e.emp_no,
+       concat(e.last_name,', ', e.first_name) AS "Name",
+       s.salary,
+       t.title,
+       t.from_date AS "Promoted on"
+FROM employees AS e INNER JOIN salaries AS s
+ON e.emp_no = s.emp_no
+INNER JOIN titles AS t
+ON t.emp_no = e.emp_no AND (t.from_date=s.from_date OR t.from_date = (s.from_date + INTERVAL '2 days')) 
+ORDER BY e.emp_no;
+
+--------------------
+SELECT e.emp_no,
+       concat(e.last_name,', ', e.first_name) AS "Name",
+       s.salary,
+       s.from_date
+FROM employees AS e, salaries AS s
+WHERE e.emp_no = s.emp_no
+ORDER BY e.emp_no;
+
 /*
 * DB: Employees
 * Table: titles

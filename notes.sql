@@ -114,6 +114,48 @@ INTERVAL keyword: It will help us to go forward or backward in the interval of d
 /*
 DISTINCT keyword removes duplicates.
     -> There can be one column or multiple columns.
-        Two cols will be evaluated based on both the columns.
+        Two unique will be evaluated based on both the columns if two columns are passed to be distinct.
+*/
+
+/*
+Combine Data from Multiple Tables
+-------------------------------
+select e.emp_no,
+       concat(e.first_name, e.last_name) as "Name",
+       s.salary
+from employees as e, salaries as s
+where e.emp_no = s.emp_no;
+---------------------------------
+Above query says that Name employees table as "e" and salaries table as "s"
+Now give me emp_no, first_name, last_name from e table and salary from s table where emp_no from e table is equal to emp_no from s table.
+
+THIS IS SIMILAR TO INNER JOIN. We can solbe the above problem using inner join
+select e.emp_no,
+       concat(e.first_name, e.last_name) as "Name",
+       s.salary
+from employees as e INNER JOIN salaries as s
+ON e.emp_no = s.emp_no;
+
+OUTER JOIN
+It will give intersection as well as all the non matching tuples from left table
+eg: select count(emp.emp_no)
+    from employees as emp
+    left join dept_manager as dep on emp.emp_no = dep.emp_no
+    where dep.emp_no is null;
+LEFT JOIN === LEFT OUTER JOIN
+    
+CROSS JOIN
+It will map every row of Table A every row of Table B
+
+FULL OUTER JOIN
+It is same as OUTER JOIN but it will give LEFT OUTER + RIGHT OUTER
+
+USING keyword
+It will help only when we are matching foreign key with primary key straight forward.
+eg: SELECT e.first_name, dp.dept_name
+    FROM employees AS e
+    INNER JOIN dept_emp AS de ON de.emp_no = e.emp_no
+    INNER JOIN departments AS dp ON dp.dept_no = de.dept_no
+
 
 */
