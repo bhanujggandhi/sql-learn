@@ -1,3 +1,4 @@
+-- Practice LIKE keyword 
 SELECT * FROM employees
 WHERE first_name ILIKE 'M__ry' AND emp_no::TEXT ILIKE '1%';
 
