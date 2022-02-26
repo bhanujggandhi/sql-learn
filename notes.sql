@@ -110,3 +110,10 @@ INTERVAL keyword: It will help us to go forward or backward in the interval of d
         Give me all the orders which have purchase date less than 30 days earlier from today
         
 */
+
+/*
+DISTINCT keyword removes duplicates.
+    -> There can be one column or multiple columns.
+        Two cols will be evaluated based on both the columns.
+
+*/

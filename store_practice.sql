@@ -1,5 +1,15 @@
 /*
 * DB: Store
+* Table: orders
+* Question: How many orders were made in January 2004?
+*/
+
+SELECT * FROM orders
+-- where extract(year from orderdate) = 2004 and extract(month from orderdate) = 01;
+WHERE date_trunc('month', orderdate) = '2004-01-01';
+
+/*
+* DB: Store
 * Table: customers
 * Question: How many people's zipcode have a 2 in it?.
 * Expected output: 4211 
