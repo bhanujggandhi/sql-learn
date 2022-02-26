@@ -82,5 +82,31 @@ Similary to LIKE there is a keyword called ILIKE which is case insensitive. Uppe
 Postgres SQL matches the pattern only on String or Text. So before matching any patter first CAST it to text.
 We can cast any column to text using 2 ways
     1. colname::text
-    2. CAST(colname, text)
+    2. CAST(colname AS DATATYPE) eg: CAST(zipcode AS TEXT)
+*/
+
+
+/*
+Current Date:
+    SELECT NOW()::date; OR SELECT CURRENT_DATE;
+Format Date:
+    SELECT TO_CHAR(CURRENT_DATE, '(Format String)MM ddth, yyyy');
+Date Operations:
+    Subtracting two dates will give us No. of days between the two dates.
+    select now() - '2022/01/01';
+Age Function
+    AGE function will take date as input and tell you the (No. of years, No. of months, No. of years till now)
+    SELECT AGE('2000-10-04'::date);
+    SELECT AGE('2000-10-04', '2022-10-04'); --This will tell us the no. of years, months, and days between the two dates
+
+We can extract different things from a date using EXTRACT keyword
+    SELECT EXTRACT(YEAR from '2000-10-04'::date) as YEAR; 
+    
+Date truncate function can be used to round years, months, or days
+    select date_trunc('year', date '1992/11/13'); -- this will output the date 1992/01/01 which means we are truncating to year
+    
+INTERVAL keyword: It will help us to go forward or backward in the interval of dash years or months.
+    eg: SELECT * FROM orders WHERE purchaseDate <= now() - interval '30 days';
+        Give me all the orders which have purchase date less than 30 days earlier from today
+        
 */
