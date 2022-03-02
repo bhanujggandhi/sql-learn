@@ -232,3 +232,36 @@ SELECT a.first_name, a.last_name FROM actors a
 -- Practical note about joins: Joins can be expensive computationally when we have large tables.
 
 
+--*****************************************************************************************
+--SubQueries or Nested Queries
+--*****************************************************************************************
+# List all actors in the movie Schindler's List
+
+SELECT first_name, last_name
+FROM   actors
+WHERE  id IN (SELECT actor_id
+              FROM   roles
+              WHERE  movie_id IN (SELECT id
+                                  FROM   movies
+                                  WHERE  NAME = 'Schindler\'s List')); 
+                                  
+/*
+This query says:
+    1. Get me the ID of the movies having name Schindler's List (It can be an array or a single value)
+    2. Get me actor_id of the actors who have roles in movie_id IN the above query
+    3. Get me names of the actors who have actor_id present in the array resturned by the above query
+*/
+
+/*
+First INNER QUERY is executed then it's result is used by the query just above it.
+
+# IN, NOT IN, EXISTS, NOT EXISTS, ANY, ALL, Comparison operators
+# EXISTS returns true if the subquery returns one or more records or NULL
+# ANY operator returns TRUE if any of the subquery values meet the condition (Minimum should satisfy).
+# ALL operator returns TRUE if all of the subquery values meet the condition (Maximum should satisfy).
+*/
+
+SELECT * FROM movies WHERE rankscore >= ALL (SELECT MAX(rankscore) FROM movies);
+--Get me the movies which have rankscore greater than the max rankscore of the movies.
+
+# https://en.wikipedia.org/wiki/Correlated_subquery
