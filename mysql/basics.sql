@@ -127,3 +127,108 @@ _ means any single character
 SELECT MIN(YEAR) FROM movies;
 SELECT MAX(YEAR) FROM movies;
 SELECT COUNT(YEAR) FROM movies WHERE YEAR>2000;
+
+/*
+GROUP BY: It groups the data and we can query anything related to the group in this case number of movies in the group of years.
+*/
+
+SELECT YEAR, COUNT(YEAR) FROM movies GROUP BY YEAR ORDER BY YEAR;
+
+--Alias is Grouped data
+SELECT YEAR, COUNT(YEAR) year_count FROM movies GROUP BY YEAR ORDER BY year_count;
+-- year_count is an alias.
+-- often used with COUNT, MIN, MAX or SUM.
+-- if grouping columns contain NULL values, all null values are grouped together.
+
+/*
+How to filter groups?
+HAVING keyword: Having is used to filter data out of groups
+    eg: Below we want to filter those groups which have year_count alias greater than 1000
+*/
+
+SELECT YEAR, COUNT(YEAR) year_count FROM movies
+GROUP BY YEAR
+HAVING year_count > 1000
+ORDER BY year_count;
+
+/*
+Order of execution:
+1. GROUP BY to create groups
+2. apply the AGGREGATE FUNCTION
+3. Apply HAVING condition.
+*/
+
+SELECT NAME, YEAR  FROM movies HAVING YEAR>2000;
+# HAVING without GROUP BY is same as WHERE
+
+SELECT YEAR, COUNT(YEAR) year_count FROM movies WHERE rankscore>9 GROUP BY YEAR HAVING year_count>20;
+
+/*
+Order of execution:
+    1. WHERE to filtter all the rows with rankscore > 9
+    2. Then GROUP BY year to group the data.
+    3. COUNT function is applied on the year and alias given as year_count
+    4. year_count > 20 is filtered out of the groups
+
+# HAVING vs WHERE
+## WHERE is applied on individual rows while HAVING is applied on groups.
+## HAVING is applied after grouping while WHERE is used before grouping.
+*/
+
+--To refer order of operators
+--Refer: https://dev.mysql.com/doc/refman/8.0/en/select.html
+
+--*****************************************************************************************
+--JOINs in SQL
+--*****************************************************************************************
+--Used to combine data from multiple tables, unleash the power of RDBMS and using relations to get the related data.
+
+/*
+JOIN keyword, ON keyword
+We can JOIN two tables based ON some condition.
+The below query says:
+    1. FROM movies alias m JOIN movies_genres alias g
+    2. Based on condition id = movie_id
+    3. Give me the movie name and genre
+*/
+
+SELECT m.name, g.genre FROM movies m 
+    JOIN movies_genres g  -- INNER JOIN movies_genres g (This will also work)
+ON m.id = g.movie_id;
+
+#Table aliases: m and g
+
+/*
+Natural Join: A join where we have the same column names across the table. In that case we do not need to specify the join condition, SQL will automatically detect PK and FK and join on their basis.
+eg: #T1: C1, C2
+    #T2: C1, C3, C4
+    
+    SELECT * FROM T1 JOIN T2;
+    SELECT * FROM T1 JOIN T2 USING (C1);
+    Both are same. 2nd is more explicit way of saying using C1 JOIN T1 and T2
+    
+    # returns C1,C2,C3,C4
+    # no need to use the keyword "ON"
+    
+Outer Join: It can be LEFT, RIGHT, or FULL. LEFT OUTER JOIN will give the Intersection + Left part with NULLs for the right values. Similarly, RIGHT OUTER JOIN will give the Intersection + Right part with NULLs for the left values. FULL OUTER JOIN will give INTERSECTION + Left part with NULLs for the right values + Right part with NULLs for the left values
+*/
+
+SELECT m.name, g.genre FROM movies m
+    LEFT JOIN movies_genres g
+ON m.id=g.movie_id LIMIT 20;
+
+#LEFT JOIN or LEFT OUTER JOIN
+#RIGHT JOIN or RIGHT OUTER JOIN
+#FULL JOIN or FULL OUTER JOIN
+#JOIN or INNER JOIN
+
+# NULL for missing counterpart rows.
+
+-- 3-way joins and k-way joins
+SELECT a.first_name, a.last_name FROM actors a
+    JOIN roles r ON a.id=r.actor_id
+    JOIN movies m ON m.id=r.movie_id AND m.name='Officer 444';
+
+-- Practical note about joins: Joins can be expensive computationally when we have large tables.
+
+
