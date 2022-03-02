@@ -1,3 +1,12 @@
+--*****************************************************************************************
+--Data Manipulation Language
+--*****************************************************************************************
+/*
+Used to manipulate data in the database
+SELECT, INSERT, UPDATE, DELETE
+*/
+-- SELECT
+
 SELECT * FROM movies;
 -- SELECT queries whatever specified
 -- Next to SELECT comes the columns. * means all the cols. We can also define col names instead of *
@@ -265,3 +274,26 @@ SELECT * FROM movies WHERE rankscore >= ALL (SELECT MAX(rankscore) FROM movies);
 --Get me the movies which have rankscore greater than the max rankscore of the movies.
 
 # https://en.wikipedia.org/wiki/Correlated_subquery
+
+
+-- INSERT
+
+INSERT INTO movies(id, NAME, YEAR, rankscore) VALUES( 412321, 'Thor', 2011, 7);
+SELECT * FROM movies WHERE id=412321;
+
+-- To Insert multiple tuples to the table
+INSERT INTO movies(id, NAME, YEAR, rankscore) VALUES (412322, 'Iron Man', 2008, 7.9), (412323, 'Iron Man 2', 2010, 7);
+
+-- INSERT FROM one table to annother using nnested sub query:
+-- https://en.wikipedia.org/wiki/Insert_(SQL)#Copying_rows_from_other_tables
+
+-- UPDATE
+-- Update <TableName> set col1=val1, col2=val2 where condition
+UPDATE movies SET rankscore = 9 WHERE id=412321;
+# Update multiple rows also.
+# Can be used along with Sub-queries.
+
+-- DELETE
+DELETE FROM movies WHERE id=412321;
+# Remove all rows: TRUNCATE TABLE TableName; 
+# Same as selete without a WHERE Clause.
